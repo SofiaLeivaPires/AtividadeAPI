@@ -1,36 +1,65 @@
-// 1. Coloque a sua chave gerada aqui
 const apiKey = '530b6b9d5566bdfb61e043fe04d419c7';
 
-// 2. Montamos a URL. Note que já passamos o parâmetro language=pt-BR!
-const url = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR&page=1`;
+const inputFilme = document.getElementById("filme");
+const botao = document.getElementById("botao");
+const result = document.getElementById("result");
 
-async function buscarFilmes() {
+
+botao.addEventListener("click", async () => {
+ 
+  const inputValue = inputFilme.value;
+
+  if(!inputValue) 
+    
+    return;
+  
+  inputFilme.value = "";
+
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=pt-BR&query=${inputValue}&page=1`;
+
+
   try {
     const resposta = await fetch(url);
     const dados = await resposta.json();
 
-    console.log("🎬 Filmes Populares no Momento:\n");
+    console.log(`🎬 Resultados para: "${inputValue}"\n`);
 
-    // A API devolve os filmes dentro de um array chamado 'results'
+    result.innerHTML = "";
+
     dados.results.forEach(filme => {
-        console.log(`Título: ${filme.title}`);
-        console.log(`Nota: ⭐ ${filme.vote_average}`);
+
+      const card = document.createElement("div");
+      card.className = "bg-white p-2 border border-gray-300 rounded-xl shadow-lg flex flex-col items-center gap-8";
+
+      const linkCapa = `https://image.tmdb.org/t/p/w500${filme.poster_path}`;
+
+      const poster = document.createElement("img");
+      poster.src = linkCapa
+      poster.className = "w-50 h-60 rounded-lg shadow-xl hover:scale-105 transition-transform duration-300"
+      card.appendChild(poster); 
+
+      const tituloFilme= document.createElement("h2");
+      tituloFilme.innerHTML = `Título: ${filme.title}`;
+      card.appendChild(tituloFilme);
+
+      const nota= document.createElement("p");
+      nota.innerHTML = `Nota: ⭐ ${filme.vote_average} ` ;
+      card.appendChild(nota);
+
+      const sinopse= document.createElement("p");
+      sinopse.innerHTML = `Sinopse: ${filme.overview}`;
+      sinopse.className = "text-justify ml-5 mr-5"
+      card.appendChild(sinopse);
         
-        // Se a sinopse existir, a gente mostra
-        if (filme.overview) {
-             console.log(`Sinopse: ${filme.overview}`);
-        }
-        
-        // 3. O Pulo do Gato das Imagens:
-        // Juntamos a URL base da TMDB (tamanho w500) com o caminho da imagem do filme
-        const linkCapa = `https://image.tmdb.org/t/p/w500${filme.poster_path}`;
-        console.log(`Link da Capa: ${linkCapa}`);
-        console.log("---------------------------------------------------");
+      result.appendChild(card);
+      
     });
+
 
   } catch (erro) {
     console.error("Ops, falha ao conectar com a TMDB:", erro);
   }
-}
 
-buscarFilmes();
+
+})
+
