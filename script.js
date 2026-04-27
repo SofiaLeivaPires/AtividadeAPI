@@ -34,7 +34,7 @@ botao.addEventListener("click", async () => {
 
       const poster = document.createElement("img");
       poster.src = linkCapa
-      poster.className = "w-50 h-60 rounded-lg shadow-xl hover:scale-105 transition-transform duration-300"
+      poster.className = "w-50 h-60 rounded-lg shadow-xl hover:scale-105 transition-transform duration-300 mt-10"
       card.appendChild(poster); 
 
       const tituloFilme= document.createElement("h2");
@@ -47,7 +47,7 @@ botao.addEventListener("click", async () => {
 
       const sinopse= document.createElement("p");
       sinopse.innerHTML = `Sinopse: ${filme.overview}`;
-      sinopse.className = "text-justify ml-5 mr-5"
+      sinopse.className = "text-justify ml-10 mr-10 mb-10"
       card.appendChild(sinopse);
         
       result.appendChild(card);
@@ -56,7 +56,7 @@ botao.addEventListener("click", async () => {
 
 
   } catch (erro) {
-    console.error("Ops, falha ao conectar com a TMDB:", erro);
+    console.error("Falha na conexão", erro);
   }
 
 
@@ -94,7 +94,7 @@ botaoDescobrir.addEventListener("click", async () => {
       card.appendChild(tituloFilme);
 
       const nota= document.createElement("p");
-      nota.innerHTML = `Nota: ⭐ ${filme.vote_average} ` ;
+      nota.innerHTML = `Avaliação: ⭐ ${filme.vote_average} ` ;
       card.appendChild(nota);
 
       const sinopse= document.createElement("p");
@@ -108,9 +108,8 @@ botaoDescobrir.addEventListener("click", async () => {
 
 
   } catch (erro) {
-    console.error("Ops, falha ao conectar com a TMDB:", erro);
+    console.error("Falha na conexão", erro);
   }
 
-
-})
+});
 
