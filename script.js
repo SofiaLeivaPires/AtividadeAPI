@@ -76,7 +76,7 @@ botaoDescobrir.addEventListener("click", async () => {
 
     result.innerHTML = "";
 
-    dados.forEach(filme => {
+    dados.results.forEach(filme => {
 
       const card = document.createElement("div");
 
